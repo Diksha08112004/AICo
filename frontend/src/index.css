@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global app background and typography */
+body {
+  @apply bg-gradient-to-br from-slate-50 via-violet-50 to-fuchsia-100 text-gray-900 antialiased;
+}
+
+/* Smooth hover transitions for interactive elements */
+button, a {
+  @apply transition-colors duration-200;
+}
