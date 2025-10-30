@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Workspace = require('../models/Workspace');
 const User = require('../models/User');
+const mongoose = require('mongoose');
 
 router.get('/', async (req, res) => {
   try {
@@ -9,7 +10,20 @@ router.get('/', async (req, res) => {
     const workspaces = await Workspace.find(q).sort({ createdAt: -1 });
     res.json(workspaces);
   } catch (e) {
-    res.status(500).json({ error: 'WS_LIST_ERROR' });
+    res.status(500).json({ error: 'WS_LIST_ERROR', message: e.message });
+  }
+});
+
+// Debug endpoint to quickly verify DB connectivity and collection status
+router.get('/debug', async (req, res) => {
+  try {
+    const conn = mongoose.connection;
+    const name = conn?.name;
+    const readyState = conn?.readyState; // 1 = connected
+    const count = await Workspace.countDocuments({});
+    res.json({ ok: true, dbName: name, readyState, workspaceCount: count });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
   }
 });
 
