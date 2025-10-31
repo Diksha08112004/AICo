@@ -12,6 +12,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.json({ status: 'AICo backend running', health: '/api/health' });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });
